@@ -2,9 +2,11 @@ const experss = require("express");
 const bodyParser = require("body-parser");
 const nodemailer = require("nodemailer");
 const app = experss();
+const cors = require("cors");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cors());
 
 app.post("/api/form", (req, res) => {
   let transporter = nodemailer.createTransport({
