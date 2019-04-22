@@ -13,7 +13,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // };
 
 const corsConfig = {
-  origin: "http://localhost:3000",
+  origin: "https://zealous-nightingale-48c042.netlify.com",
   methods: "GET,PUT,POST,DELETE",
   credentials: true,
   allowedHeaders: "Origin,X-Requested-With,Content-Type,Accept,Cookie",
@@ -22,7 +22,10 @@ const corsConfig = {
 };
 
 app.post("/api/form", cors(corsConfig), (req, res) => {
-  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+  res.setHeader(
+    "Access-Control-Allow-Origin",
+    "https://zealous-nightingale-48c042.netlify.com"
+  );
   let transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
