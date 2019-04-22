@@ -22,6 +22,7 @@ const corsConfig = {
 };
 
 app.post("/api/form", cors(corsConfig), (req, res) => {
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
   let transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
