@@ -7,12 +7,21 @@ const cors = require("cors");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-const corsOptions = {
+// const corsOptions = {
+//   origin: "http://localhost:3000",
+//   optionsSuccessStatus: 200
+// };
+
+const corsConfig = {
   origin: "http://localhost:3000",
-  optionsSuccessStatus: 200
+  methods: "GET,PUT,POST,DELETE",
+  credentials: true,
+  allowedHeaders: "Origin,X-Requested-With,Content-Type,Accept,Cookie",
+  preflightContinue: false,
+  optionsSuccessStatus: 204
 };
 
-app.post("/api/form", cors(corsOptions), (req, res) => {
+app.post("/api/form", cors(corsConfig), (req, res) => {
   let transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
