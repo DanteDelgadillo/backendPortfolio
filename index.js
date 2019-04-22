@@ -1,56 +1,27 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const nodemailer = require("nodemailer");
+
 const app = express();
 const cors = require("cors");
+const sgMail = require("@sendgrid/mail");
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cors());
 
-// const corsOptions = {
-//   origin: "http://localhost:3000",
-//   optionsSuccessStatus: 200
-// };
-
-const corsConfig = {
-  origin: "https://zealous-nightingale-48c042.netlify.com",
-  methods: "GET,PUT,POST,DELETE",
-  credentials: true,
-  allowedHeaders: "Origin,X-Requested-With,Content-Type,Accept,Cookie",
-  preflightContinue: false,
-  optionsSuccessStatus: 204
-};
-
-app.post("/api/form", cors(corsConfig), (req, res) => {
-  res.setHeader(
-    "Access-Control-Allow-Origin",
-    "https://zealous-nightingale-48c042.netlify.com"
-  );
-  let transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      user: "ddantedelgadillo@gmail.com",
-      pass: "Dragon213"
-    },
-    tls: {
-      rejectUnauthorized: false
-    }
-  });
-
-  let mailOptions = {
-    from: req.body.email,
+app.post("/api/form", (req, res) => {
+  const msg = {
     to: "ddantedelgadillo@gmail.com",
+    from: req.body.email,
     subject: req.body.subject,
-    text: req.body.name + " " + req.body.email + " " + req.body.message
+    text: req.body.message,
+    html: req.body.message
   };
-
-  transporter.sendMail(mailOptions, function(err, res) {
-    if (err) {
-      console.log("Error");
-    } else {
-      console.log("Email Sent");
-    }
-  });
+  sgMail
+    .send(msg)
+    .then(console.log(req.body.message))
+    .catch(err => console.error(err));
 });
 
 const PORT = process.env.PORT || 3001;
