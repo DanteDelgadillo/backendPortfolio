@@ -1,7 +1,7 @@
-const experss = require("express");
+const express = require("express");
 const bodyParser = require("body-parser");
 const nodemailer = require("nodemailer");
-const app = experss();
+const app = express();
 const cors = require("cors");
 
 app.use(bodyParser.json());
