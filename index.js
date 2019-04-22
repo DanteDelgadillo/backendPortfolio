@@ -6,9 +6,13 @@ const cors = require("cors");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cors());
 
-app.post("/api/form", (req, res) => {
+const corsOptions = {
+  origin: "http://localhost:3000",
+  optionsSuccessStatus: 200
+};
+
+app.post("/api/form", cors(corsOptions), (req, res) => {
   let transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
