@@ -11,6 +11,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 
 app.post("/api/form", (req, res) => {
+  const headers = new Headers();
+  headers.append("Access-Control-Allow-Origin", "*");
+
   const msg = {
     to: "ddantedelgadillo@gmail.com",
     from: req.body.email,
