@@ -10,6 +10,15 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
+
 app.post("/api/form", (req, res) => {
   const msg = {
     to: "ddantedelgadillo@gmail.com",
@@ -18,11 +27,11 @@ app.post("/api/form", (req, res) => {
     text: req.body.message,
     html: req.body.message
   };
-  withCredentials: true,
-    sgMail
-      .send(msg)
-      .then(console.log(req.body.message))
-      .catch(err => console.error(err));
+
+  sgMail
+    .send(msg)
+    .then(console.log(req.body.message))
+    .catch(err => console.error(err));
 });
 
 const PORT = process.env.PORT || 3001;
