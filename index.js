@@ -18,10 +18,11 @@ app.post("/api/form", (req, res) => {
     text: req.body.message,
     html: req.body.message
   };
-  sgMail
-    .send(msg)
-    .then(console.log(req.body.message))
-    .catch(err => console.error(err));
+  withCredentials: true,
+    sgMail
+      .send(msg)
+      .then(console.log(req.body.message))
+      .catch(err => console.error(err));
 });
 
 const PORT = process.env.PORT || 3001;
