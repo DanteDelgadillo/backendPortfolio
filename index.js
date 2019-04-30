@@ -9,9 +9,8 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
-app.options("/api/form", cors());
 
-app.post("/api/form", cors(), (req, res) => {
+app.post("/api/form", async (req, res) => {
   const msg = {
     to: "ddantedelgadillo@gmail.com",
     from: req.body.email,
@@ -20,10 +19,14 @@ app.post("/api/form", cors(), (req, res) => {
     html: req.body.message
   };
 
-  sgMail
-    .send(msg)
-    .then(console.log(req.body.message))
-    .catch(err => console.error(err));
+  try {
+    await sgMail.send(msg);
+    console.log(req.body.message);
+    return res.status(200).json();
+  } catch (err) {
+    console.log(err.stack);
+    res.status(500).json({ message: err.toString() });
+  }
 });
 
 const PORT = process.env.PORT || 3001;
